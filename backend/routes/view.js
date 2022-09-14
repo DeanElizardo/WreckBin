@@ -3,7 +3,7 @@
  * user interactions with the front end
  */
 const express = require('express');
-const { query } = require('../db.js');
+const { query } = require('../services/db.js');
 const { generateID } = require('../services/generateBinID.js');
 
 const router = express.Router();
