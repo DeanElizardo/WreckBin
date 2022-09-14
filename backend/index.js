@@ -3,7 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { viewRouter } from './routes/view.js';
 import { recordRouter } from './routes/record.js';
-import * from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ app.use('/record', recordRouter);
 app.use((req, res, next) => {
   res.status(404);
   res.send(process.env.RESOURCE_NOT_FOUND);
-}
+});
 
 app.use((err, req, res, next) => {
   res.status(500);
