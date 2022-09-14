@@ -1,15 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 const viewRouter = require('./routes/view.js');
 const recordRouter = require('./routes/record.js');
-const dotenv = require('dotenv');
 
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+// Body Parsers
+app.use(express.urlencoded()); // URL Encoded
+app.use(express.json()); // JSON
+app.use(express.text()); // Text
+app.use(express.raw()); // Raw
+
 app.use(morgan('dev'));
 
 app.use('/bins', viewRouter);
@@ -27,5 +32,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(process.env.PORT, process.env.HOST, () => {
-  console.log("Server is up and listening on port", process.env.PORT);
+  console.log('Server is up and listening on port', process.env.PORT);
 });
