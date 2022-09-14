@@ -1,6 +1,23 @@
-const HomePage = () => {
+import BinLinks from "./BinLinks";
+
+
+const HomePage = ({ bins }) => {
+
+
     return (
-        <div>Home Page</div>
+        <div className="container mt-5">
+            <div className="row">
+                <div className="col-9">
+                    <h1 className="title mb-3">Create a RequestBin</h1>
+                    <button type="button" className="btn btn-primary">create a new bin</button>
+                </div>
+
+                <div className="col-3">
+                    <h2>My recent bins</h2>
+                    <BinLinks bins={bins} />
+                </div>
+            </div>
+        </div>
     );
 }
 
