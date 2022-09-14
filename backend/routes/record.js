@@ -2,37 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/:binid', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
-  res.status(200);
-  res.end();
-});
-
-router.post('/:binid', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
-  res.status(200);
-  res.end();
-});
-
-router.put('/:binid', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
-  res.status(200);
-  res.end();
-});
-
-router.patch('/:binid', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
-  res.status(200);
-  res.end();
-});
-
-router.delete('/:binid', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
+router.all('/:binid', (req, res) => {
+  console.log("IP Address:", req.headers.host);
+  console.log("Headers:", req.headers); // Headers
+  console.log("Params:", req.params); // Parameters
+  console.log("Body:", req.body); 
+  console.log("HTTP Method:", req.method);
+  console.log("Content Size:", req.headers['content-length']);
   res.status(200);
   res.end();
 });
