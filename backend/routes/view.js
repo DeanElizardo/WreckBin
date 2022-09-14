@@ -2,15 +2,16 @@
  * This file contains all of the routes for handling 
  * user interactions with the front end
  */
-import express from 'express';
-import { query } from '../db.js';
-import { generateID } from '../services/generateBinId.js';
+const express = require('express');
+const { query } = require('../db.js');
+const { generateID } = require('../services/generateBinID.js');
 
-export const router = express.Router();
+const router = express.Router();
 
 /* view homepage */
 router.get('/', (req, res) => {
-  console.log(req.body);
+  const capture = {};
+  console.log(req.headers);
   res.status(200);
   res.end();
 });
@@ -23,3 +24,5 @@ router.post('/new', (req, res) => {
   const newBinID = generateID();
   
 });
+
+module.exports = router;

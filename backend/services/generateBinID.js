@@ -1,8 +1,10 @@
-import crypto from 'crypto';
-import * as dotenv from 'dotenv';
+const crypto = require('crypto');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
-export function generateID() {
+function generateID() {
   return crypto.randomBytes(+process.env.ID_SIZE).toString("hex");
 }
+
+module.exports = { generateID };

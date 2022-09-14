@@ -1,9 +1,9 @@
-import express from 'express';
-import cors from 'cors';
-import morgan from 'morgan';
-import { viewRouter } from './routes/view.js';
-import { recordRouter } from './routes/record.js';
-import * as dotenv from 'dotenv';
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const viewRouter = require('./routes/view.js');
+const recordRouter = require('./routes/record.js');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
