@@ -9,9 +9,13 @@ const { generateID } = require('../services/generateBinID.js');
 const router = express.Router();
 
 /* view homepage */
-router.get('/', (req, res) => {
-  const capture = {};
-  console.log(req.headers);
+router.post('/', (req, res) => {
+  console.log("BODY:", req.body);
+  console.log("HEADERS", req.headers);
+  console.log("PARAMS", req.params);
+  console.log("METHOD", req.method);
+  //console.log("SIZE", req.headers.get('content-length'));
+  //console.log("TYPE", req.headers.get('Content-Type'));
   res.status(200);
   res.end();
 });
