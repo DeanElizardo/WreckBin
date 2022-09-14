@@ -3,11 +3,23 @@
  * user interactions with the front end
  */
 import express from 'express';
+import { query } from '../db.js';
+import { generateID } from '../services/generateBinId.js';
 
 export const router = express.Router();
 
-router.get('/', (req, res) => {});
+/* view homepage */
+router.get('/', (req, res) => {
+  console.log(req.body);
+  res.status(200);
+  res.end();
+});
 
-router.get('/:id', (req, res) => {});
+/* get all records associated with bin id */
+router.get('/:binID', (req, res) => {});
 
-router.post();
+/* generate a new bin */
+router.post('/new', (req, res) => {
+  const newBinID = generateID();
+  
+});
