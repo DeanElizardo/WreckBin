@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/', (req, res) => {});
 
 /* get all records associated with bin id */
-router.get('/:binID', (req, res) => {});
+router.get('/:userID', (req, res) => {});
 
 /* generate a new bin */
 router.post('/new', (req, res) => {
