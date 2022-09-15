@@ -17,16 +17,16 @@ app.use(express.raw()); // Raw
 
 app.use(morgan('dev'));
 app.use(cors());
-app.use('/bins', viewRouter);
 
+app.use('/users', viewRouter);
 app.use('/record', recordRouter);
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404);
   res.send(process.env.RESOURCE_NOT_FOUND);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(500);
   res.send(process.env.SERVER_ERROR);
 });

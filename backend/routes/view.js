@@ -17,57 +17,66 @@ router.get('/uuid', (req, res) => {
 });
 
 /* get all bins associated with user id */
-router.get('/:userID', (req, res, next) => {
+router.get('/:userID', (req, res) => {
   const id = req.params.userID;
 
   const constructedQuery = {
-    text: 'SELECT * FROM Bins WHERE userId = {$1}',
+    text: 'SELECT binid, userid, createdon, lastaccessed FROM Bins WHERE userId = $1 AND deleted = false',
     values: [id],
   };
 
   query(constructedQuery, (err, result) => {
-    return response.send(result);
-  }).catch(err => next(err));
+    if (err) {
+      throw err;
+    }
+
+    res.json(result.rows);
+  });
 });
 
-/* get all records associated with bin */
-router.get('/:binID', (req, res, next) => {
-  const id = req.params.binID;
-
+/* get all requests associated with bin */
+router.get('/:userID/:binID', (req, res) => {
   const constructedQuery = {
-    text: 'SELECT uniqueDocId FROM Requests WHERE binId = {$1}',
-    values: [id],
+    text: 'SELECT uniqueDocId FROM Requests WHERE binId = $1',
+    values: [req.params.binID],
   };
 
   query(constructedQuery, (err, result) => {
-    return response.send(result);
-  }).catch(err => next(err));
+    if (err) {
+      throw err;
+    }
+
+    return res.json(result.rows);
+  });
 });
 
 /* view individual request */
-router.get('/:requestId', (req, res, next) => {
-  Request.findById(req.params.id)
+router.get('/:userId/:binId/:requestId', (req, res, next) => {
+  Request.findById(req.params.requestId)
     .then(person => {
-      response.json(person);
+      res.json(person);
     })
     .catch(error => next(error));
 });
 
 /* generate a new bin */
-router.post('/:userId/new', (req, res, next) => {
+router.post('/:userId/new', (req, res) => {
   // Create a new bin
   const id = uuid.genBinID();
+
   const constructedQuery = {
-    text: 'INSERT INTO BINS(binId, userId, createdOn, lastAccessed) VALUES($1, $2, $3, $4)',
-    values: [id, req.params.userId, Date.now(), Date.now()],
+    text: 'INSERT INTO BINS(binId, userId, createdOn, lastAccessed) VALUES($1, $2, NOW(), NOW())',
+    values: [id, req.params.userId],
   };
 
-  query(constructedQuery, (err, result) => {
-    return response.send(result);
-  }).catch(err => next(err));
+  query(constructedQuery, err => {
+    if (err) {
+      throw err;
+    }
 
-  // Redirect to the path of '/:binid'
-  res.redirect(`/bins/${id}`);
+    // Redirect to the path of '/:userID/:binID'
+    return res.redirect(302, `/users/${req.params.userId}/${id}`);
+  });
 });
 
 module.exports = router;
