@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Del-on-git/WreckBin#readme",
   "dependencies": {
     "connect-loki": "^1.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "mongoose": "^6.6.0",

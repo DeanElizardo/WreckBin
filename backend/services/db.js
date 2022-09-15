@@ -12,22 +12,29 @@ module.exports = {
 
 TODO: Implement in Node-Postgres
 
-CREATE TABLE Bins {
-  id INT PRIMARY KEY,
-  ipAddress varchar(15) NOT NULL,
-  url varchar(255) NOT NULL,
+// id is not an int but a varchar
+// URL isn't needed
+
+CREATE TABLE Bins (
+  id SERIAL PRIMARY KEY,
+  binId varchar(16) NOT NULL UNIQUE,
+  userId varchar (16) NOT NULL,
   createdOn timestamp NOT NULL,
   lastAccessed timestamp NOT NULL,
-  deleted boolean DEFAULT false NOT NULL,
-}
+  deleted boolean DEFAULT false NOT NULL
+);
 
-CREATE TABLE Requests {
-  id INT PRIMARY KEY,
-  binId INT FOREIGN KEY REFERENCES Bins(id)
-  requestType varchar(6)
-  createdOn timestamp NOT NULL,
-  incomingIp varchar(15) NOT NULL,
-  uniqueDocId varchar(255),
-}
+CREATE TABLE Requests (
+  id SERIAL PRIMARY KEY,
+  binId INT REFERENCES Bins(id)
+  uniqueDocId varchar(255)
+);
 
 */
+
+// Removed from database
+// ipAddress varchar(15) NOT NULL,
+// incomingIp varchar(15) NOT NULL,
+// url varchar(255) NOT NULL,
+// createdOn timestamp NOT NULL,
+// requestType varchar(6)

@@ -1,7 +1,9 @@
 const express = require('express');
 const Request = require('../models/request');
-
+const { query } = require('../services/db.js');
 const router = express.Router();
+
+// wreckbin.com/record/:binid
 
 router.all('/:binid', (req, res, next) => {
   const id = req.params.binid;
@@ -19,19 +21,17 @@ router.all('/:binid', (req, res, next) => {
     },
   });
 
-/*  console.log('IP Address:', req.headers.host); // IP
-  console.log('Headers:', req.headers); // Headers
-  console.log('Parameters:', req.params); // Parameters
-  console.log('Query String:', req.query); // Query String
-  console.log('Body:', req.body); // Body
-  console.log('HTTP Method:', req.method); // HTTP Verb
-  console.log('Content Size:', req.headers['content-length']); // Size
-  */
-
   result
     .save()
     .then(savedRequest => {
       res.json(savedRequest);
+
+      const constructedQuery = {
+        text: 'INSERT INTO REQUESTS(binId, uniqueDocID) VALUES($1, $2)',
+        values: [id, savedRequest._id],
+      };
+
+      query(constructedQuery);
     })
     .catch(error => next(error));
 
