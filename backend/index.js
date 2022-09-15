@@ -1,5 +1,5 @@
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const viewRouter = require('./routes/view.js');
@@ -16,7 +16,7 @@ app.use(express.text()); // Text
 app.use(express.raw()); // Raw
 
 app.use(morgan('dev'));
-
+app.use(cors());
 app.use('/bins', viewRouter);
 
 app.use('/record', recordRouter);

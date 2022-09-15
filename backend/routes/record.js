@@ -15,7 +15,7 @@ router.all('/:binid', (req, res, next) => {
       parameters: req.query,
       body: req.body,
       method: req.method,
-      size: req.headers,
+      size: req.headers['content-length'],
     },
   });
 

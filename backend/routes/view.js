@@ -8,11 +8,9 @@ const uuid = require('../services/uuid.js');
 
 const router = express.Router();
 
-/* view homepage with all our bins */
-router.get('/', (req, res) => {
-  // If user id exists in local storage, retrieve bins if they exist
-  // If not, generate user id and store in local storage, bins dont exist
-  uuid.genUserID();
+/* Generate a user id and respond to the client */
+router.get('/uuid', (req, res) => {
+  res.json(uuid.genUserID());
 });
 
 /* view individual bin */

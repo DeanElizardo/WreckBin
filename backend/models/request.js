@@ -10,13 +10,13 @@ mongoose
   })
   .catch(error => {
     console.log(
-      'There was an issue connecting to the MongoDB database: ',
+      'There was an issue connecting to the ongoDB database: ',
       error.message
     );
   });
 
 const requestSchema = new mongoose.Schema({
-  userId: {
+  binId: {
     type: String,
     required: true,
   },
