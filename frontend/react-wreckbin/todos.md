@@ -13,5 +13,5 @@
     - [ ] Navigation bar
     - [ ] ClientLibraries 
 - [ ] create services
-    - [ ] 
-- 
+    - [ ] bins
+
