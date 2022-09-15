@@ -4,7 +4,7 @@
  */
 const express = require('express');
 const { query } = require('../services/db.js');
-const { generateID } = require('../services/generateBinID.js');
+const uuid = require('../services/uuid.js');
 
 const router = express.Router();
 
@@ -12,6 +12,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   // If user id exists in local storage, retrieve bins if they exist
   // If not, generate user id and store in local storage, bins dont exist
+  uuid.genUserID();
 });
 
 /* view individual bin */
@@ -26,7 +27,7 @@ router.get('/:requestId', (req, res) => {});
 /* generate a new bin */
 router.post('/new', (req, res) => {
   // Create a new bin
-  const newBinID = generateID();
+  const newBinID = uuid.genBinID();
 
   // Redirect to the path of '/'view '
 });
