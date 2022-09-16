@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+const baseURL = 'http://localhost:3030';
+
 /**
  * Send request to /uuid to get a token (userId)
  * @returns {string} token
  */
 export const createUserId = async () => {
   try {
-    const response = await axios.post(`/users/uuid`);
+    const response = await axios.post(`${baseURL}/users/uuid`);
     return response.data.userId;
   } catch (err) {
     console.error(err.message);
@@ -35,7 +37,7 @@ export const setTokenInLocalStorage = token => {
 export const getAllBins = async () => {
   try {
     let token = getTokenFromLocalStorage();
-    const response = await axios.get(`/users/${token}`);
+    const response = await axios.get(`${baseURL}/users/${token}`);
 
     return response.data;
   } catch (err) {
@@ -45,7 +47,7 @@ export const getAllBins = async () => {
 
 export const getSpecificBin = async (binID, token) => {
   try {
-    let response = await axios.get(`/${token}/${binID}`);
+    let response = await axios.get(`${baseURL}/${token}/${binID}`);
     return response.data.binID;
   } catch (err) {
     console.error(err.message);
@@ -54,7 +56,7 @@ export const getSpecificBin = async (binID, token) => {
 
 export const createBin = async token => {
   try {
-    let response = await axios.post(`/users/${token}/new`);
+    let response = await axios.post(`${baseURL}/users/${token}/new`);
     return response.data.binID;
   } catch (err) {
     console.error(err.message);
@@ -68,7 +70,7 @@ export const createBinURL = ({ binId }) => {
 export const getAllRequests = async binId => {
   try {
     let token = getTokenFromLocalStorage();
-    const response = await axios.get(`/users/${token}/${binId}`);
+    const response = await axios.get(`${baseURL}/users/${token}/${binId}`);
 
     return response.data;
   } catch (err) {
@@ -78,7 +80,7 @@ export const getAllRequests = async binId => {
 
 export const getSpecificRequest = async (binID, token, requestId) => {
   try {
-    let response = await axios.get(`/users/${token}/${binID}/${requestId}`);
+    let response = await axios.get(`${baseURL}/users/${token}/${binID}/${requestId}`);
 
     return response.data;
   } catch (err) {
