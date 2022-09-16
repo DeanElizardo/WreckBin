@@ -24,7 +24,7 @@ router.all('/:binId', (req, res, next) => {
     .then(savedRequest => {
       const constructedQuery = {
         text: 'INSERT INTO REQUESTS(binId, uniqueDocID) VALUES($1, $2)',
-        values: [id, savedRequest._id],
+        values: [id, savedRequest.id],
       };
 
       query(constructedQuery);

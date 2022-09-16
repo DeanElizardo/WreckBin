@@ -2,7 +2,6 @@
  * This file contains all of the routes for handling
  * user interactions with the front end
  */
-const { response } = require('express');
 const express = require('express');
 const { query } = require('../services/db.js');
 const uuid = require('../services/uuid.js');
@@ -50,6 +49,39 @@ router.get('/:userID/:binID', (req, res) => {
   });
 });
 
+/* Delete a bin and its requests. */
+router.delete('/:userID/:binID', (req, res, next) => {
+  // Delete in Mongo
+  Request.deleteMany({ binId: req.params.binID }).catch(error => next(error));
+
+  // Delete in PostgreSQL
+  const constructedQuery = {
+    text: 'DELETE FROM Requests WHERE binid = $1',
+    values: [req.params.binID],
+  };
+
+  query(constructedQuery, err => {
+    if (err) {
+      throw err;
+    }
+  });
+
+  const secondaryQuery = {
+    text: 'DELETE FROM bins WHERE binid = $1',
+    values: [req.params.binID],
+  };
+
+  query(secondaryQuery, err => {
+    if (err) {
+      throw err;
+    }
+  });
+
+  return res
+    .status(200)
+    .send('Bin and associated requests successfully deleted.');
+});
+
 /* view individual request */
 router.get('/:userId/:binId/:requestId', (req, res, next) => {
   Request.findById(req.params.requestId)
@@ -57,6 +89,26 @@ router.get('/:userId/:binId/:requestId', (req, res, next) => {
       res.json(person);
     })
     .catch(error => next(error));
+});
+
+/* Delete individual request */
+router.delete('/:userId/:binId/:requestId', (req, res, next) => {
+  // Delete in Mongo
+  Request.findByIdAndDelete(req.params.requestId).catch(error => next(error));
+
+  // Delete in PostgreSQL
+  const constructedQuery = {
+    text: 'DELETE FROM Requests WHERE uniquedocid = $1',
+    values: [`"${req.params.requestId}"`],
+  };
+
+  query(constructedQuery, err => {
+    if (err) {
+      throw err;
+    }
+
+    return res.status(200).send('Request successfully deleted.');
+  });
 });
 
 /* generate a new bin */
