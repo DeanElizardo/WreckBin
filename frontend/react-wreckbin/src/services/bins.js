@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-export let baseUrl = 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
+export let baseUrl = 'https://8121-2600-1700-8151-30b0-bc38-726a-de05-cc06.ngrok.io'; 
 
 
 /**
