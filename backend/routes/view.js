@@ -127,7 +127,7 @@ router.post('/:userId/new', (req, res) => {
     }
 
     // Redirect to the path of '/:userID/:binID'
-    return res.redirect(302, `/users/${req.params.userId}/${id}`);
+    return res.json({ binID: id });
   });
 });
 
