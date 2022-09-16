@@ -55,9 +55,7 @@ export const getAllBins = async () => {
           'ngrok-skip-browser-warning': true
         }
       });
-
-      console.log(response.data)
-      // console.log(response)
+      
       return response.data; 
     } catch (err) {
     console.error(err.message); 

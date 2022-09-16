@@ -23,6 +23,7 @@ import BinPage from './components/pages/BinPage';
 import HomePage from './components/pages/HomePage';
 import AllBins from './components/pages/AllBins';
 import MetaData from './components/pages/MetaData';
+import Navbar from './components/Navbar';
 
 const binList = [
   { id: 1, binUrl: "wreckestbin.com/ghna1t52l518ehzh" },
@@ -79,6 +80,7 @@ function App() {
   return (
     <>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={ <HomePage bins={bins} onCreateBin={onCreateBin} userId={token} /> } />
           <Route path="/binpage/:userId/:binId" element={ <BinPage />} />
