@@ -6,8 +6,14 @@ import RequestCodeBlock from '../RequestCodeBlock';
 const BinPage = () => {
   const params = useParams();
 
-  const url = createBinURL(params)
-  const [snippet, setSnippet] = useState('curl')
+  const url = createBinURL(params);
+  const [snippet, setSnippet] = useState('curl');
+
+  const [snippetData, setSnippetData] = useState([
+    { id: "1", name: "curl", type: "curl", isActive: true },
+    { id: "2", name: "Node.js", type: "node", isActive: false },
+    { id: "3", name: "Ruby", type: "ruby", isActive: false }
+  ]);
 
   // record/:binid
   const snippetMap = {
@@ -16,7 +22,7 @@ const BinPage = () => {
     `, 
     "node": `
       var request = require('request');
-      var url ='${url}'
+      var url ='${url}';
       request(url, function (error, response, body) {
         if (!error) {
           console.log(body);
@@ -32,7 +38,33 @@ const BinPage = () => {
   
   const handleClick = (snippetType) => {
     setSnippet(snippetType)
-  }
+    setSnippetData((prevState) => {
+      return prevState.map(snippet => {
+        if (snippet.type === snippetType) {
+          snippet.isActive = true; 
+        } else {
+          snippet.isActive = false; 
+        }
+        return snippet; 
+      })
+    })
+  }; 
+
+  const renderSnippetTabs = () => {
+    return snippetData.map(snippet => {
+      return (
+        <li className="nav-item" key={snippet.id}>
+          <button 
+            className={`nav-link ${snippet.isActive && 'active'}`}
+            aria-current="page"
+            onClick={() => handleClick(snippet.type)}
+          >
+            {snippet.name}
+          </button>
+        </li>
+      )
+    })
+  }; 
 
 
   return (
@@ -41,31 +73,7 @@ const BinPage = () => {
 
       <div className="card p-4">
         <ul className="nav nav-pills p-2">
-          <li className="nav-item">
-            <button 
-              className={`nav-link active`}
-              aria-current="page"
-              onClick={() => handleClick('curl')}
-            >
-              curl
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className="nav-link"
-              onClick={() => handleClick('node')}
-            >
-              Node.js
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className="nav-link"
-              onClick={() => handleClick('ruby')}
-            >
-              Ruby
-            </button>
-          </li>
+          {renderSnippetTabs()}
         </ul>
         <div className="form-floating">
           

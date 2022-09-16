@@ -25,13 +25,13 @@ import AllBins from './components/pages/AllBins';
 import MetaData from './components/pages/MetaData';
 import Navbar from './components/Navbar';
 
-const binList = [
-  { id: 1, binUrl: "wreckestbin.com/ghna1t52l518ehzh" },
-  { id: 2, binUrl: "wreckestbin.com/asldflj3iasldsjd" },
-  { id: 3, binUrl: "wreckestbin.com/gasdoa930j3asldj" },
-  { id: 4, binUrl: "wreckestbin.com/baso903jfa2ld39j" },
-  { id: 5, binUrl: "wreckestbin.com/easldfj093jasldh" }
-];
+// const binList = [
+//   { id: 1, binUrl: "wreckestbin.com/ghna1t52l518ehzh" },
+//   { id: 2, binUrl: "wreckestbin.com/asldflj3iasldsjd" },
+//   { id: 3, binUrl: "wreckestbin.com/gasdoa930j3asldj" },
+//   { id: 4, binUrl: "wreckestbin.com/baso903jfa2ld39j" },
+//   { id: 5, binUrl: "wreckestbin.com/easldfj093jasldh" }
+// ];
 
 
 function App() {
@@ -56,8 +56,6 @@ function App() {
     return binID;
   };
 
-  // console.log(getSpecificBin('7f39a9ec8b51352dfb4acc99944e72e0', 'a3cd5a8576e0edffa679100f7b94'))
-
   const getBinList = async () => {
     let binList = await getAllBins();
     return binList;
@@ -66,10 +64,10 @@ function App() {
 
 
   useEffect(() => {
-    console.log(() => getAllBins());
-    console.log(getAllBins());
-    console.log(getBinList())
-    setBins(binList);
+    getAllBins().then((binList) => {
+      console.log(binList)
+      setBins(binList)
+  });
   }, []);
 
   useEffect(() => {

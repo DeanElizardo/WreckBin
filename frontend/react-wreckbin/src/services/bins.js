@@ -3,13 +3,6 @@ import axios from 'axios'
 
 export let baseUrl = 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
 
-// "proxy": 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'
-
-
-const api = axios.create({
-  baseURL: baseUrl,
-});
-
 
 /**
  * Send request to /uuid to get a token (userId)
@@ -64,7 +57,11 @@ export const getAllBins = async () => {
 
 export const getSpecificBin = async (binID, token) => {
   try {
-    let response = await axios.get(`${baseUrl}/${token}/${binID}`);
+    let response = await axios.get(`${baseUrl}/${token}/${binID}`, {
+      headers: {
+        'ngrok-skip-browser-warning': true
+      }
+    });
     console.log(response.data);
     return response.data.binID;
   } catch (err) {
