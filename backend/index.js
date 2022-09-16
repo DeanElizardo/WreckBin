@@ -16,7 +16,7 @@ app.use(express.text()); // Text
 app.use(express.raw()); // Raw
 app.use(express.static('build'));
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({ origin: 'https://overcaffeinated.dev' }));
 
 app.use('/users', viewRouter);
 app.use('/record', recordRouter);
