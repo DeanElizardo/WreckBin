@@ -6,8 +6,7 @@ import RequestLinks from "../RequestLinks";
 
 const BinPage = () => {
   const params = useParams();
-  console.log('Params', params)
-  const { binId, userId } = params; 
+  const { binId } = params; 
   const url = createBinURL(params);
   const [snippet, setSnippet] = useState('curl');
   
@@ -19,7 +18,6 @@ const BinPage = () => {
     { id: "3", name: "Ruby", type: "ruby", isActive: false }
   ]);
 
-  // record/:binid
   const snippetMap = {
     "curl": `
       curl -X POST -d "fizz=buzz" ${url}

@@ -7,11 +7,6 @@ const MetaData = ({ token }) => {
   const params = useParams();
   const { requestId, binId } = params;
   const [ request, setRequest ] = useState('');
-  // /:userId/:binId/:requestId bin id, token, reuqest id 
-  
-  console.log('binId', binId)
-  console.log('token', token)
-  console.log('requestId', requestId)
 
   useEffect(() => {
     getSpecificRequest(binId, token, requestId).then(specificRequest => {

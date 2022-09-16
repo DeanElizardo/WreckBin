@@ -6,14 +6,8 @@ const HomePage = ({ bins, onCreateBin, userId }) => {
     const navigate = useNavigate(); 
     const handleCreateBin = async (userId) => {
         let binID = await onCreateBin(userId);
-
-        console.log("binID:", binID)
-        console.log("userId:", userId)
         navigate(`/binpage/${userId}/${binID}`);
     }; 
-
-    // http://localhost:3000/987887de2af7613c205132cfdf935831/10b304148e6385c577312257dd06e944
-
 
     return (
         <div className="container mt-5">
