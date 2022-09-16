@@ -108,9 +108,7 @@ export const getSpecificRequest = async (binID, token, requestId) => {
         'ngrok-skip-browser-warning': true
       }
     });
-    console.log('GET SPECIFIC REQUEEST'); 
-    console.log(binID, token, requestId)
-    console.log(response.data);
+    
     return response.data
   } catch (err) {
     console.error(err.message)
