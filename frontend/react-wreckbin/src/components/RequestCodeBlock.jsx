@@ -1,12 +1,10 @@
 import { CodeBlock, dracula } from "react-code-blocks";
 
-function RequestCodeBlock({ code, language, showLineNumbers, startingLineNumber }) {
+function RequestCodeBlock({ code, language }) {
   return (
     <CodeBlock
       text={code}
       language={language}
-      showLineNumbers={showLineNumbers}
-      startingLineNumber={startingLineNumber}
       theme={dracula}
     />
   );

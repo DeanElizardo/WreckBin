@@ -1,35 +1,97 @@
 import axios from 'axios'
 
-const baseUrl = '/bins'
-// bins
-// binId
-// new
+
+export let baseUrl = 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
 
 
-const bin = {
-  id: "1", 
-  ip: "example.com", 
-  url: "wreckestbin.com/ghna1t52l518ehzh",
-  requestList: [
-    {  }
-  ] 
-}
-
-const getAllBins = () => {
-  let request = axios.get(baseUrl);
-  return request.then(response => response.data);
+/**
+ * Send request to /uuid to get a token (userId)
+ * @returns {string} token  
+ */
+export const createUserId = async () => {
+  try {
+    const response = await axios.post(`${baseUrl}/users/uuid`); 
+    return response.data.userId; 
+    
+  } catch (err) {
+    console.error(err.message)
+  }
 };
 
-const getSpecificBin = (id) => {
-  // let request = axios.get(baseUrl);
-  // return request.then(response => response.data);
-
+/**
+ * Get token stored in local storage 
+ */
+export const getTokenFromLocalStorage = () => {
+  return window.localStorage.getItem('wreckbin-app-userId');
 }
 
-const createBin = (newBin) => {
-  // let request = axios.post(baseUrl, newBin);
-  // return request.then(response => response.data);
+/**
+ * Set token in local storage 
+ */
+export const setTokenInLocalStorage = (token) => {
+  // if we don't have a token 
+  window.localStorage.setItem('wreckbin-app-userId', token);
 };
+
+
+/**
+ * Get all bins associated with userID (token)
+ * @returns {Array.<Object>} bins 
+ */
+export const getAllBins = async () => {
+
+  try {
+      let token = getTokenFromLocalStorage();
+      console.log('Token', token)
+      const response = await axios.get(`${baseUrl}/users/${token}`, {
+        headers: {
+          'ngrok-skip-browser-warning': true
+        }
+      });
+      
+      return response.data; 
+    } catch (err) {
+    console.error(err.message); 
+  }
+};
+
+export const getSpecificBin = async (binID, token) => {
+  try {
+    let response = await axios.get(`${baseUrl}/${token}/${binID}`, {
+      headers: {
+        'ngrok-skip-browser-warning': true
+      }
+    });
+    console.log(response.data);
+    return response.data.binID;
+  } catch (err) {
+    console.error(err.message)
+  }
+};
+
+export const createBin = async (token) => {
+  try {
+    let response = await axios.post(`${baseUrl}/users/${token}/new`);
+    return response.data.binID;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const createBinURL = ({ binId }) => {
+  return `${baseUrl}/record/${binId}`; 
+}; 
+
+
+
+
+
+
+
+
+
+
+
 
 // const deletePerson = (id) => {
 //     let request = axios.delete(`${baseUrl}/${id}`);
@@ -37,4 +99,21 @@ const createBin = (newBin) => {
 // }
 
 
-export default { getAllBins, getSpecificBin, createBin };
+// export default { getAllBins, getSpecificBin, createBin };
+
+
+
+/**
+Reminders 
+wreckestbin.com/      home page 
+                      create a new token 
+                      Create Authorization: token (put in local storage)
+--------------------------------------------------------------------------
+
+/users/uuid 
+/users/:userId                          get all bins associated with user id 
+/users/:userId/:binId                   get all requests associated with bin 
+/users/:userId/:binId/:requestId        view individual request
+/users/:userId/new                      create a new bin 
+
+*/

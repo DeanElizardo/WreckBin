@@ -18,8 +18,6 @@ const MetaData = () => {
       <RequestCodeBlock 
         code={codeExample} 
         language={`javascript`} 
-        startingLineNumber={1}
-        showLineNumbers={true}
       />
     </div>
   );
