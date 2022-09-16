@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export let baseUrl = 'http://localhost:3030';
+export let baseUrl = 'https://overcaffeinated.dev';
 
 /**
  * Send request to /uuid to get a token (userId)
