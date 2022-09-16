@@ -55,16 +55,19 @@ function App() {
     return binID;
   };
 
-  // const getBinList = async () => {
-  //   let binList = await getAllBins();
-  //   return binList;
-  // }
+  // console.log(getSpecificBin('7f39a9ec8b51352dfb4acc99944e72e0', 'a3cd5a8576e0edffa679100f7b94'))
+
+  const getBinList = async () => {
+    let binList = await getAllBins();
+    return binList;
+  }
 
 
 
   useEffect(() => {
     console.log(() => getAllBins());
     console.log(getAllBins());
+    console.log(getBinList())
     setBins(binList);
   }, []);
 

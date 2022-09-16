@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 
-export let baseUrl = 'https://e6bf-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
+export let baseUrl = 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
+
+// "proxy": 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'
 
 
-const instance = axios.create({
-  baseURL: 'https://some-domain.com/api/',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
+const api = axios.create({
+  baseURL: baseUrl,
 });
 
 
@@ -49,7 +49,15 @@ export const getAllBins = async () => {
 
   try {
       let token = getTokenFromLocalStorage();
-      let response = await axios.get(`${baseUrl}/users/${token}`);
+      console.log('Token', token)
+      const response = await axios.get(`${baseUrl}/users/${token}`, {
+        headers: {
+          'ngrok-skip-browser-warning': true
+        }
+      });
+
+      console.log(response.data)
+      // console.log(response)
       return response.data; 
     } catch (err) {
     console.error(err.message); 
@@ -59,6 +67,7 @@ export const getAllBins = async () => {
 export const getSpecificBin = async (binID, token) => {
   try {
     let response = await axios.get(`${baseUrl}/${token}/${binID}`);
+    console.log(response.data);
     return response.data.binID;
   } catch (err) {
     console.error(err.message)
