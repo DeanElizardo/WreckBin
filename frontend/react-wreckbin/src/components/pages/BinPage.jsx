@@ -73,7 +73,6 @@ const BinPage = () => {
 
   useEffect(() => {
     getAllRequests(binId).then(data => {
-      console.log('Data:', data)
       setRequests(data)
     })
   }, [binId])
