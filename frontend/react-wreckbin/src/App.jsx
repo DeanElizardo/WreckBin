@@ -47,15 +47,14 @@ function App() {
   };
 
   useEffect(() => {
+    // Register the User
+    registerUser();
+
+    // Get the Users Bins
     getAllBins().then((binList) => {
       setBins(binList)
   });
   }, []);
-
-  useEffect(() => {
-    registerUser();
-  }, []);
-
 
   return (
     <>
