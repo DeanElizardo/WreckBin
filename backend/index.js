@@ -14,7 +14,7 @@ app.use(express.urlencoded()); // URL Encoded
 app.use(express.json()); // JSON
 app.use(express.text()); // Text
 app.use(express.raw()); // Raw
-
+app.use(express.static('build'));
 app.use(morgan('dev'));
 app.use(cors());
 
