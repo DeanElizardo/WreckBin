@@ -1,13 +1,17 @@
-import { useState } from 'react'; 
+import { useState, useEffect } from 'react'; 
 import { useParams } from "react-router-dom";
-import { createBinURL } from "../../services/bins";
+import { createBinURL, getAllRequests } from "../../services/bins";
 import RequestCodeBlock from '../RequestCodeBlock';
+import RequestLinks from "../RequestLinks"; 
 
 const BinPage = () => {
   const params = useParams();
-
+  console.log('Params', params)
+  const { binId, userId } = params; 
   const url = createBinURL(params);
   const [snippet, setSnippet] = useState('curl');
+  
+  const [requests, setRequests] = useState([]);
 
   const [snippetData, setSnippetData] = useState([
     { id: "1", name: "curl", type: "curl", isActive: true },
@@ -67,6 +71,14 @@ const BinPage = () => {
   }; 
 
 
+  useEffect(() => {
+    getAllRequests(binId).then(data => {
+      console.log('Data:', data)
+      setRequests(data)
+    })
+  }, [binId])
+
+
   return (
     <div className="container">
       <div className="card size-5 mt-5 mb-5">{url}</div>
@@ -85,8 +97,9 @@ const BinPage = () => {
         </div>
       </div>
 
-      <div>
-        <ul>Requests</ul>
+      <div className="mt-4">
+        <h2>Requests</h2>
+        <RequestLinks requests={requests} binId={binId}/>
       </div>
     </div>
   );

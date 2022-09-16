@@ -82,7 +82,40 @@ export const createBinURL = ({ binId }) => {
   return `${baseUrl}/record/${binId}`; 
 }; 
 
+export const getAllRequests = async (binId) => {
+  // home.com/users/:userId/:bin:id
 
+  try {
+      let token = getTokenFromLocalStorage();
+      console.log(`Our url is: ${baseUrl}/users/${token}/${binId}`)
+      const response = await axios.get(`${baseUrl}/users/${token}/${binId}`, {
+        headers: {
+          'ngrok-skip-browser-warning': true
+        }
+      });
+      
+      return response.data; 
+    } catch (err) {
+    console.error(err.message); 
+  }
+};
+
+
+export const getSpecificRequest = async (binID, token, requestId) => {
+  try {
+    let response = await axios.get(`${baseUrl}/users/${token}/${binID}/${requestId}`, {
+      headers: {
+        'ngrok-skip-browser-warning': true
+      }
+    });
+    console.log('GET SPECIFIC REQUEEST'); 
+    console.log(binID, token, requestId)
+    console.log(response.data);
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+  }
+};
 
 
 
