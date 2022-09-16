@@ -1,25 +1,34 @@
 import RequestCodeBlock from "../RequestCodeBlock";
+import { getSpecificRequest } from "../../services/bins";
+import { useParams } from 'react-router-dom'; 
+import { useState, useEffect } from "react"
 
-const MetaData = () => {
-  const codeExample = `
-    HTTP/1.1 200 OK
-    Date: Mon, 27 Jul 2009 12:28:53 GMT
-    Server: Apache/2.2.14 (Win32)
-    Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
-    Content-Length: 88
-    Content-Type: text/html
-    Connection: Closed
-  `; 
+const MetaData = ({ token }) => {
+  const params = useParams();
+  const { requestId, binId } = params;
+  const [ request, setRequest ] = useState('');
+  // /:userId/:binId/:requestId bin id, token, reuqest id 
+  
+  console.log('binId', binId)
+  console.log('token', token)
+  console.log('requestId', requestId)
+
+  useEffect(() => {
+    getSpecificRequest(binId, token, requestId).then(specificRequest => {
+      setRequest(specificRequest); 
+    })
+  }, [binId, token, requestId]); 
+
+  
 
   return (
-    <div className="container mt-5">
-      <h1>Request Data sent to URL</h1>
-      
-      <RequestCodeBlock 
-        code={codeExample} 
-        language={`javascript`} 
-      />
-    </div>
+    <>
+      <div className="container mt-5">
+        <h1>Request Data sent to URL</h1>
+
+        <RequestCodeBlock code={JSON.stringify(request, null, 4)} language={`javascript`} />
+      </div>
+    </>
   );
 }
 

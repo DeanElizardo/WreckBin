@@ -61,8 +61,6 @@ function App() {
     return binList;
   }
 
-
-
   useEffect(() => {
     getAllBins().then((binList) => {
       console.log(binList)
@@ -84,7 +82,7 @@ function App() {
           <Route path="/binpage/:userId/:binId" element={ <BinPage />} />
           {/* <Route path="/binpage" element={ <BinPage />} /> */}
           <Route path="/allbins" element={ <AllBins bins={bins} />} />
-          <Route path="/metadata" element={ <MetaData />} />
+          <Route path="/metadata/:binId/:requestId" element={ <MetaData token={token} />} />
         </Routes>
       </Router>
     </>

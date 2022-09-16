@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-export let baseUrl = 'https://5569-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
+export let baseUrl = 'https://8121-2600-1700-8151-30b0-bc38-726a-de05-cc06.ngrok.io'; 
 
 
 /**
@@ -82,7 +82,38 @@ export const createBinURL = ({ binId }) => {
   return `${baseUrl}/record/${binId}`; 
 }; 
 
+export const getAllRequests = async (binId) => {
+  // home.com/users/:userId/:bin:id
 
+  try {
+      let token = getTokenFromLocalStorage();
+      console.log(`Our url is: ${baseUrl}/users/${token}/${binId}`)
+      const response = await axios.get(`${baseUrl}/users/${token}/${binId}`, {
+        headers: {
+          'ngrok-skip-browser-warning': true
+        }
+      });
+      
+      return response.data; 
+    } catch (err) {
+    console.error(err.message); 
+  }
+};
+
+
+export const getSpecificRequest = async (binID, token, requestId) => {
+  try {
+    let response = await axios.get(`${baseUrl}/users/${token}/${binID}/${requestId}`, {
+      headers: {
+        'ngrok-skip-browser-warning': true
+      }
+    });
+    
+    return response.data
+  } catch (err) {
+    console.error(err.message)
+  }
+};
 
 
 
