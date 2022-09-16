@@ -1,83 +1,83 @@
 import axios from 'axios'
 
-let token = null;
 
-const baseUrl = '/bins'
+export let baseUrl = 'https://e6bf-2600-1700-8151-30b0-3574-4785-2bde-ac58.ngrok.io'; 
+
+
+const instance = axios.create({
+  baseURL: 'https://some-domain.com/api/',
+  timeout: 1000,
+  headers: {'X-Custom-Header': 'foobar'}
+});
+
+
 /**
-Reminders 
-wreckestbin.com/      home page 
-                      create a new token 
-                      Create Authorization: token (put in local storage)
---------------------------------------------------------------------------
-API guide 
-
-GET   /uuid           create a token (userId)
-
-GET   /bins           get all bins 
-Send user id (Authorization token )
-
-GET   /bins/:binId    Get individual bin 
-
-POST  /bins/new       Create a new bin 
-
---------------------------------------------------------------------------
-
-
-Home Page
-1. check if there is a userId saved in local storage. 
-2. if there is one, send a request to /bins along with userID (aka Authorization: Bearer alsdkfjalsefjsa) and then display in recent bins 
-3. if there isn’t one, we wait for click event on “create new bin” button and send request to /uuid to get a brand new token (userId) and then redirect to that bin. 
-
-
-Bin Page
-1. Dynamically generate bin endpoint
-2. Generate code snippets with dynamically generated endpoint
-3. Request all requests the user sent previously to /record/:userId
-*/
-
-
-
-const setToken = newToken => {
-  token = `bearer ${newToken}`;
+ * Send request to /uuid to get a token (userId)
+ * @returns {string} token  
+ */
+export const createUserId = async () => {
+  try {
+    const response = await axios.post(`${baseUrl}/users/uuid`); 
+    return response.data.userId; 
+    
+  } catch (err) {
+    console.error(err.message)
+  }
 };
 
-const getAllBins = () => {
-  const config = {
-    headers: { Authorization: token },
-  };
-  
-  let request = axios.get(baseUrl, config);
-  return request.then(response => response.data);
-};
-
-
-const getSpecificBin = (id) => {
-  const config = {
-    headers: { Authorization: token },
-  };
-
-  // let request = axios.get(baseUrl);
-  // return request.then(response => response.data);
-
+/**
+ * Get token stored in local storage 
+ */
+export const getTokenFromLocalStorage = () => {
+  return window.localStorage.getItem('wreckbin-app-userId');
 }
 
-const createBin = (newBin) => {
-  const config = {
-    headers: { Authorization: token },
-  };
-
-  // let request = axios.post(baseUrl, newBin);
-  // return request.then(response => response.data);
+/**
+ * Set token in local storage 
+ */
+export const setTokenInLocalStorage = (token) => {
+  // if we don't have a token 
+  window.localStorage.setItem('wreckbin-app-userId', token);
 };
 
-const create = async newObject => {
-  const config = {
-    headers: { Authorization: token },
-  };
 
-  const response = await axios.post(baseUrl, newObject, config);
-  return response.data;
+/**
+ * Get all bins associated with userID (token)
+ * @returns {Array.<Object>} bins 
+ */
+export const getAllBins = async () => {
+
+  try {
+      let token = getTokenFromLocalStorage();
+      let response = await axios.get(`${baseUrl}/users/${token}`);
+      return response.data; 
+    } catch (err) {
+    console.error(err.message); 
+  }
 };
+
+export const getSpecificBin = async (binID, token) => {
+  try {
+    let response = await axios.get(`${baseUrl}/${token}/${binID}`);
+    return response.data.binID;
+  } catch (err) {
+    console.error(err.message)
+  }
+};
+
+export const createBin = async (token) => {
+  try {
+    let response = await axios.post(`${baseUrl}/users/${token}/new`);
+    return response.data.binID;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const createBinURL = ({ binId }) => {
+  return `${baseUrl}/record/${binId}`; 
+}; 
+
 
 
 
@@ -95,4 +95,21 @@ const create = async newObject => {
 // }
 
 
-export default { getAllBins, getSpecificBin, createBin };
+// export default { getAllBins, getSpecificBin, createBin };
+
+
+
+/**
+Reminders 
+wreckestbin.com/      home page 
+                      create a new token 
+                      Create Authorization: token (put in local storage)
+--------------------------------------------------------------------------
+
+/users/uuid 
+/users/:userId                          get all bins associated with user id 
+/users/:userId/:binId                   get all requests associated with bin 
+/users/:userId/:binId/:requestId        view individual request
+/users/:userId/new                      create a new bin 
+
+*/

@@ -8,6 +8,16 @@ import {
 import { useState, useEffect } from 'react'; 
 
 //import services
+import { 
+  createUserId, 
+  createBin,
+  getTokenFromLocalStorage, 
+  setTokenInLocalStorage,
+  getAllBins,
+  getSpecificBin 
+} from "./services/bins"; 
+
+
 //import components
 import BinPage from './components/pages/BinPage';
 import HomePage from './components/pages/HomePage';
@@ -22,46 +32,44 @@ const binList = [
   { id: 5, binUrl: "wreckestbin.com/easldfj093jasldh" }
 ];
 
-const handleLogin = async event => {
-  event.preventDefault();
-
-  try {
-    const user = await loginService.login({
-      username,
-      password,
-    });
-
-    window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user));
-    noteService.setToken(user.token);
-
-    setUser(user);
-    setUsername('');
-    setPassword('');
-  } catch (error) {
-    setErrorMessage('Wrong credentials!');
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  }
-};
 
 function App() {
-  const [bins, setBins] = useState([])
-  // const [currentBin, setCurrentBin] = useState([])
+  const [bins, setBins] = useState([]);
+  const [token, setToken] = useState(''); 
 
-  useEffect(() => {
-    setBins(binList);
-    // setCurrentBin()
-  }, [])
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser');
-
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      noteService.setToken(user.token);
+  const registerUser = async () => {
+    let token = getTokenFromLocalStorage(); 
+    if (!token) {
+      token = await createUserId(); 
+      setTokenInLocalStorage(token);
     }
+    setToken(token)
+    return token; 
+  };
+
+  const onCreateBin = async () => {
+    let token = await registerUser(); 
+    let binID = await createBin(token);
+    // setBinId(binID)
+
+    return binID;
+  };
+
+  // const getBinList = async () => {
+  //   let binList = await getAllBins();
+  //   return binList;
+  // }
+
+
+
+  useEffect(() => {
+    console.log(() => getAllBins());
+    console.log(getAllBins());
+    setBins(binList);
+  }, []);
+
+  useEffect(() => {
+    registerUser();
   }, []);
 
 
@@ -69,8 +77,9 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={ <HomePage bins={bins} />} />
-          <Route path="/binpage" element={ <BinPage />} />
+          <Route path="/" element={ <HomePage bins={bins} onCreateBin={onCreateBin} userId={token} /> } />
+          <Route path="/binpage/:userId/:binId" element={ <BinPage />} />
+          {/* <Route path="/binpage" element={ <BinPage />} /> */}
           <Route path="/allbins" element={ <AllBins bins={bins} />} />
           <Route path="/metadata" element={ <MetaData />} />
         </Routes>
