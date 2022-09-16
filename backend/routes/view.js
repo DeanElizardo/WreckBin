@@ -10,7 +10,7 @@ const Request = require('../models/request');
 const router = express.Router();
 
 /* Generate a user id and respond to the client */
-router.get('/uuid', (req, res) => {
+router.post('/uuid', (req, res) => {
   const userInformation = { userId: uuid.genUserID() };
   return res.json(userInformation);
 });
