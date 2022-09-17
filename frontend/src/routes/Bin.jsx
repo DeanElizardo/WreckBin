@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { createBinURL, getAllRequests } from "../../services/bins";
-import RequestCodeBlock from '../RequestCodeBlock';
-import RequestLinks from "../RequestLinks"; 
+import { createBinURL, getAllRequests } from "../services/bins";
+import RequestCodeBlock from '../components/RequestCodeBlock'
+import RequestLinks from "../components/RequestLinks";
 
 const BinPage = () => {
   const params = useParams();
-  const { binId } = params; 
+  const { binId } = params;
   const url = createBinURL(params);
   const [snippet, setSnippet] = useState('curl');
-  
+
   const [requests, setRequests] = useState([]);
 
   const [snippetData, setSnippetData] = useState([
@@ -21,7 +21,7 @@ const BinPage = () => {
   const snippetMap = {
     "curl": `
       curl -X POST -d "fizz=buzz" ${url}
-    `, 
+    `,
     "node": `
       var request = require('request');
       var url ='${url}';
@@ -30,33 +30,33 @@ const BinPage = () => {
           console.log(body);
         }
       });
-    `, 
+    `,
     "ruby": `
       require 'open-uri'
       result = open('${url}')
       result.lines { |f| f.each_line {|line| p line} }
-    `, 
+    `,
   }
-  
+
   const handleClick = (snippetType) => {
     setSnippet(snippetType)
     setSnippetData((prevState) => {
       return prevState.map(snippet => {
         if (snippet.type === snippetType) {
-          snippet.isActive = true; 
+          snippet.isActive = true;
         } else {
-          snippet.isActive = false; 
+          snippet.isActive = false;
         }
-        return snippet; 
+        return snippet;
       })
     })
-  }; 
+  };
 
   const renderSnippetTabs = () => {
     return snippetData.map(snippet => {
       return (
         <li className="nav-item" key={snippet.id}>
-          <button 
+          <button
             className={`nav-link ${snippet.isActive && 'active'}`}
             aria-current="page"
             onClick={() => handleClick(snippet.type)}
@@ -66,7 +66,7 @@ const BinPage = () => {
         </li>
       )
     })
-  }; 
+  };
 
 
   useEffect(() => {
@@ -85,12 +85,12 @@ const BinPage = () => {
           {renderSnippetTabs()}
         </ul>
         <div className="form-floating">
-          
-          <RequestCodeBlock 
-            code={snippetMap[snippet]} 
-            language={`javascript`} 
+
+          <RequestCodeBlock
+            code={snippetMap[snippet]}
+            language={`javascript`}
           />
-      
+
         </div>
       </div>
 

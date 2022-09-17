@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
+import { getTokenFromLocalStorage } from '../services/bins';
 
 const Navbar = () => {
+  const userId = getTokenFromLocalStorage();
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary text-white">
       <div className="container">
@@ -11,7 +14,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link className="nav-link" aria-current="page" to="/">Home</Link>
-            <Link className="nav-link" to="/">All My Bins</Link>
+            <Link className="nav-link" to={`/binpage/${userId}`}>All My Bins</Link>
           </div>
         </div>
       </div>

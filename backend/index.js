@@ -14,9 +14,9 @@ app.use(express.urlencoded()); // URL Encoded
 app.use(express.json()); // JSON
 app.use(express.text()); // Text
 app.use(express.raw()); // Raw
-app.use(express.static('build'));
+// app.use(express.static('build'));
 app.use(morgan('dev'));
-app.use(cors({ origin: 'localhost:3030' }));
+app.use(cors());
 
 app.use('/users', viewRouter);
 app.use('/record', recordRouter);

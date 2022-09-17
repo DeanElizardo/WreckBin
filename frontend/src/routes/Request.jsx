@@ -1,20 +1,18 @@
-import RequestCodeBlock from "../RequestCodeBlock";
-import { getSpecificRequest } from "../../services/bins";
+import RequestCodeBlock from "../components/RequestCodeBlock";
+import { getSpecificRequest } from "../services/bins";
 import { useParams } from 'react-router-dom'; 
 import { useState, useEffect } from "react"
 
-const MetaData = ({ token }) => {
+const Request = ({ token }) => {
   const params = useParams();
   const { requestId, binId } = params;
   const [ request, setRequest ] = useState('');
 
   useEffect(() => {
     getSpecificRequest(binId, token, requestId).then(specificRequest => {
-      setRequest(specificRequest); 
+      setRequest(specificRequest);
     })
-  }, [binId, token, requestId]); 
-
-  
+  }, [binId, token, requestId]);
 
   return (
     <>
@@ -27,4 +25,4 @@ const MetaData = ({ token }) => {
   );
 }
 
-export default MetaData;
+export default Request;
