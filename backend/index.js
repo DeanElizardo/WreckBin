@@ -9,6 +9,9 @@ dotenv.config();
 
 const app = express();
 
+// Cors
+app.use(cors());
+
 // Body Parsers
 app.use(express.urlencoded()); // URL Encoded
 app.use(express.json()); // JSON
@@ -16,10 +19,20 @@ app.use(express.text()); // Text
 app.use(express.raw()); // Raw
 app.use(express.static('build'));
 app.use(morgan('dev'));
-app.use(cors({ origin: 'localhost:3030' }));
 
 app.use('/users', viewRouter);
 app.use('/record', recordRouter);
+
+app.get('/*', (req, res) => {
+  res.sendFile(
+    '/var/www/overcaffeinated.dev/development/html/index.html',
+    err => {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
 
 app.use((req, res) => {
   res.status(404);
