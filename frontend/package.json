@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "doppler run react-scripts start",
-    "build": "doppler run react-scripts build",
+    "build": "react-scripts build && rm -r ../backend/build && cp -r build ../backend",
     "test": "doppler run react-scripts test",
     "eject": "doppler run react-scripts eject"
   },
