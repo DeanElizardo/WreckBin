@@ -4,8 +4,8 @@
   "description": "The backend for WreckBin, an app for viewing request data",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "doppler run npx nodemon index.js",
+    "start": "doppler run node index.js"
   },
   "repository": {
     "type": "git",
