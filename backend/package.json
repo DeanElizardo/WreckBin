@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "doppler run npx nodemon index.js",
-    "start": "doppler run node index.js"
+    "start": "doppler run node index.js",
+    "deploy:dev": "sudo rm -rv /var/www/overcaffeinated.dev/development/html/* && sudo cp -r ./build/. /var/www/overcaffeinated.dev/development/html/.",
+    "deploy:prod": "sudo rm -rv /var/www/overcaffeinated.dev/html/* && sudo cp -r ./build/. /var/www/overcaffeinated.dev/html/."
   },
   "repository": {
     "type": "git",
